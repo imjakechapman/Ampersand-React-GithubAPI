@@ -4,6 +4,10 @@ import Qs from 'qs'
 import uuid from 'node-uuid'
 import xhr from 'xhr'
 
+
+// Config
+import config from './config'
+
 // Layout
 import Layout from './layout'
 
@@ -57,7 +61,7 @@ export default Router.extend({
 		const state = uuid()
 		window.localStorage.state = state
 		window.location = 'https://github.com/login/oauth/authorize?' + Qs.stringify({
-			client_id: 'daeb3e0cd31e3d848179',
+			client_id: config.client_id,
 			redirect_uri: window.location.origin + '/auth/callback',
 			scope: 'user,repo',
 			state: state
@@ -81,7 +85,7 @@ export default Router.extend({
 
 		// Send POST request for authentication token
 		xhr({
-		    uri: "https://ampersand-react-demo.herokuapp.com/authenticate/" + query.code,
+		    uri: config.gatekeeper_url + '/' + query.code,
 		    json: true
 		}, (err, resp, body) => {
 			if(err) {
